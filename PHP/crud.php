@@ -1,8 +1,8 @@
 <?php
-$host = "127.0.0.1";
+$host = "localhost";
 $port = 3306;
-$dbname = "db_hydro";
-$username = "dev";
+$dbname = "curriculo_db";
+$username = "adm";
 $password = "123";
 
 try {
