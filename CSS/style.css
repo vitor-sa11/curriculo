@@ -1,11 +1,10 @@
-/* Reset and layout */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-:root{
+:root {
   --bg: #f7f9fb;
   --card: #ffffff;
   --accent: #0077cc;
@@ -13,7 +12,7 @@
   --text: #111827;
 }
 
-body{
+body {
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   background: var(--bg);
   color: var(--text);
@@ -22,44 +21,53 @@ body{
   padding-bottom: 40px;
 }
 
-/* Navigation */
-nav{
+nav {
   background: linear-gradient(90deg, rgba(0,0,0,0.85), rgba(0,0,0,0.75));
-  color: #fff;
+  color: #ffffff;
   padding: 14px 24px;
   position: sticky;
   top: 0;
   z-index: 100;
   box-shadow: 0 2px 6px rgba(2,6,23,0.08);
 }
-nav .container{
+
+nav .container {
   max-width: 980px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-nav .brand{
+
+nav .brand {
   font-weight: 700;
   letter-spacing: 0.3px;
 }
-nav ul{
+
+nav ul {
   list-style: none;
   display: flex;
   gap: 18px;
   align-items: center;
 }
-nav a{ color: #fff; text-decoration: none; font-weight: 600; }
-nav a:hover{ opacity: 0.9; }
 
-/* Page container */
-.main-wrap{
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+nav a:hover {
+  opacity: 0.9;
+}
+
+.main-wrap {
   max-width: 980px;
   margin: 24px auto;
   padding: 0 16px;
 }
 
-.profile-card{
+.profile-card {
   display: grid;
   grid-template-columns: 160px 1fr;
   gap: 20px;
@@ -69,52 +77,112 @@ nav a:hover{ opacity: 0.9; }
   align-items: center;
   box-shadow: 0 6px 18px rgba(15,23,42,0.06);
 }
-.profile-card img{
+
+.profile-card img {
   width: 140px;
   height: 140px;
   object-fit: cover;
   border-radius: 12px;
   border: 4px solid rgba(0,119,204,0.06);
 }
-.profile-card .info h1{ font-size: 1.6rem; margin-bottom: 6px; }
-.profile-card .info p.title{ color: var(--accent); font-weight:700; margin-bottom:8px; }
-.profile-card .info p.blurb{ color: var(--muted); }
 
-/* Sections */
-.sections{
+.profile-card .info h1 {
+  font-size: 1.6rem;
+  margin-bottom: 6px;
+}
+
+.profile-card .info p.title {
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.profile-card .info p.blurb {
+  color: var(--muted);
+}
+
+.sections {
   display: grid;
   grid-template-columns: 1fr 320px;
   gap: 20px;
   margin-top: 20px;
 }
 
-.card{
+.card {
   background: var(--card);
   padding: 18px;
   border-radius: 10px;
   box-shadow: 0 4px 14px rgba(15,23,42,0.04);
 }
-.card h2{ margin-bottom: 10px; font-size: 1.05rem; }
-.card p, .card li{ color: var(--muted); }
 
-.list{ list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.list li{ padding: 8px 10px; border-radius: 8px; background: rgba(3,102,214,0.03); }
+.card h2 {
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+}
 
-/* Right column */
-.side-stack{ display:flex; flex-direction:column; gap:12px; }
+.card p {
+  color: var(--muted);
+}
 
-/* Footer */
-footer{ text-align:center; color:var(--muted); margin-top:18px; }
+.card li {
+  color: var(--muted);
+}
 
-/* Forms on edit page */
-form{ display:flex; flex-direction:column; gap:10px; }
-input[type=text], textarea{ padding:10px; border-radius:8px; border:1px solid #e6e9ee; }
-button{ background:var(--accent); color:#fff; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:600; }
-button.secondary{ background:transparent; color:var(--accent); border:1px solid rgba(0,119,204,0.14); }
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-/* Responsive */
-@media (max-width: 860px){
-  .sections{ grid-template-columns: 1fr; }
-  .profile-card{ grid-template-columns: 110px 1fr; }
-  nav .container{ padding: 0 8px; }
+.list li {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(3,102,214,0.03);
+}
+
+.side-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  margin-top: 18px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input[type=text] {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e6e9ee;
+}
+
+textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e6e9ee;
+}
+
+button {
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button.secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid rgba(0,119,204,0.14);
 }

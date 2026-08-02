@@ -1,93 +1,100 @@
 <?php
-require_once __DIR__ . '/PHP/crud.php';
+require_once 'PHP/crud.php';
 
-// helpers to escape output
-function esc($v){ return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8'); }
-
-// Handle form submissions
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['action'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'];
 
     if ($action === 'save_perfil') {
-        // Replace dados_pessoais with single row
         delete($pdo, 'dados_pessoais', '1');
-        $data = [
-            'Nome' => $_POST['Nome'] ?? '',
-            'cargo' => $_POST['cargo'] ?? '',
-            'resumo' => $_POST['resumo'] ?? '',
-            'info_principal' => $_POST['info_principal'] ?? '',
-            'imagem' => $_POST['imagem'] ?? ''
-        ];
-        create($pdo, 'dados_pessoais', $data);
+        $dados = array(
+            'Nome' => $_POST['Nome'],
+            'cargo' => $_POST['cargo'],
+            'resumo' => $_POST['resumo'],
+            'info_principal' => $_POST['info_principal'],
+            'imagem' => $_POST['imagem']
+        );
+        create($pdo, 'dados_pessoais', $dados);
     }
 
     if ($action === 'save_contatos') {
         delete($pdo, 'contatos', '1');
-        $data = [
-            'email' => $_POST['email'] ?? '',
-            'telefone' => $_POST['telefone'] ?? '',
-            'link' => $_POST['link'] ?? ''
-        ];
-        create($pdo, 'contatos', $data);
+        $dados = array(
+            'email' => $_POST['email'],
+            'telefone' => $_POST['telefone'],
+            'link' => $_POST['link']
+        );
+        create($pdo, 'contatos', $dados);
     }
 
     if ($action === 'save_formacao') {
         delete($pdo, 'formacao', '1');
-        $lines = explode("\n", trim($_POST['formacao_text'] ?? ""));
-        foreach ($lines as $ln) {
-            $ln = trim($ln);
-            if ($ln === '') continue;
-            $parts = array_map('trim', explode('|', $ln));
-            // Expect: Instituicao|curso|periodo
-            if (count($parts) < 2) continue;
-            $data = [
-                'Instituicao' => $parts[0] ?? '',
-                'curso' => $parts[1] ?? '',
-                'periodo' => $parts[2] ?? ''
-            ];
-            create($pdo, 'formacao', $data);
+        $linhas = explode("\n", $_POST['formacao_text']);
+        foreach ($linhas as $linha) {
+            $linha = trim($linha);
+            if ($linha != '') {
+                $partes = explode('|', $linha);
+                if (count($partes) >= 3) {
+                    $dados = array(
+                        'Instituicao' => trim($partes[0]),
+                        'curso' => trim($partes[1]),
+                        'periodo' => trim($partes[2])
+                    );
+                    create($pdo, 'formacao', $dados);
+                }
+            }
         }
     }
 
     if ($action === 'save_experiencias') {
         delete($pdo, 'experiencias', '1');
-        $lines = explode("\n", trim($_POST['experiencias_text'] ?? ""));
-        foreach ($lines as $ln) {
-            $ln = trim($ln);
-            if ($ln === '') continue;
-            $parts = array_map('trim', explode('|', $ln));
-            // Expect: Empresa|funcao|periodo|descricao
-            if (count($parts) < 2) continue;
-            $data = [
-                'Empresa' => $parts[0] ?? '',
-                'funcao' => $parts[1] ?? '',
-                'periodo' => $parts[2] ?? '',
-                'descricao' => $parts[3] ?? ''
-            ];
-            create($pdo, 'experiencias', $data);
+        $linhas = explode("\n", $_POST['experiencias_text']);
+        foreach ($linhas as $linha) {
+            $linha = trim($linha);
+            if ($linha != '') {
+                $partes = explode('|', $linha);
+                if (count($partes) >= 4) {
+                    $dados = array(
+                        'Empresa' => trim($partes[0]),
+                        'funcao' => trim($partes[1]),
+                        'periodo' => trim($partes[2]),
+                        'descricao' => trim($partes[3])
+                    );
+                    create($pdo, 'experiencias', $dados);
+                }
+            }
         }
     }
 
-    // After handling, redirect back to main page
-    header('Location: index.php');
+    header('Location: edicao.php');
     exit;
 }
 
-// Load current values to prefill forms
 $perfil = read($pdo, 'dados_pessoais', '1 LIMIT 1');
 $contatos = read($pdo, 'contatos', '1 LIMIT 1');
 $formacoes = readAll($pdo, 'formacao');
 $experiencias = readAll($pdo, 'experiencias');
 
-// Build textareas for bulk edit
-$formacao_text = '';
-foreach ($formacoes as $f) {
-    $formacao_text .= ($f['Instituicao'] ?? '') . '|' . ($f['curso'] ?? '') . '|' . ($f['periodo'] ?? '') . "\n";
+if (!$perfil) {
+    $perfil = array();
+}
+if (!$contatos) {
+    $contatos = array();
+}
+if (!$formacoes) {
+    $formacoes = array();
+}
+if (!$experiencias) {
+    $experiencias = array();
 }
 
-$experiencias_text = '';
+$formacao_text = "";
+foreach ($formacoes as $f) {
+    $formacao_text = $formacao_text . $f['Instituicao'] . '|' . $f['curso'] . '|' . $f['periodo'] . "\n";
+}
+
+$experiencias_text = "";
 foreach ($experiencias as $e) {
-    $experiencias_text .= ($e['Empresa'] ?? '') . '|' . ($e['funcao'] ?? '') . '|' . ($e['periodo'] ?? '') . '|' . ($e['descricao'] ?? '') . "\n";
+    $experiencias_text = $experiencias_text . $e['Empresa'] . '|' . $e['funcao'] . '|' . $e['periodo'] . '|' . $e['descricao'] . "\n";
 }
 ?>
 
@@ -104,7 +111,7 @@ foreach ($experiencias as $e) {
   <div class="container">
     <div class="brand">Editar Currículo</div>
     <ul>
-      <li><a href="index.php">Voltar</a></li>
+      <li><a href="index.php">Voltar ao Currículo</a></li>
     </ul>
   </div>
 </nav>
@@ -116,17 +123,23 @@ foreach ($experiencias as $e) {
         <h2>Dados Pessoais</h2>
         <form method="post">
           <input type="hidden" name="action" value="save_perfil">
+
           <label>Nome</label>
-          <input type="text" name="Nome" value="<?php echo esc($perfil['Nome'] ?? ''); ?>">
+          <input type="text" name="Nome" value="<?php if(isset($perfil['Nome'])) echo htmlspecialchars($perfil['Nome']); ?>" required>
+
           <label>Cargo</label>
-          <input type="text" name="cargo" value="<?php echo esc($perfil['cargo'] ?? ''); ?>">
+          <input type="text" name="cargo" value="<?php if(isset($perfil['cargo'])) echo htmlspecialchars($perfil['cargo']); ?>" required>
+
           <label>Resumo curto</label>
-          <textarea name="resumo" rows="3"><?php echo esc($perfil['resumo'] ?? ''); ?></textarea>
+          <textarea name="resumo" rows="3"><?php if(isset($perfil['resumo'])) echo htmlspecialchars($perfil['resumo']); ?></textarea>
+
           <label>Info principal (descrição maior)</label>
-          <textarea name="info_principal" rows="4"><?php echo esc($perfil['info_principal'] ?? ''); ?></textarea>
+          <textarea name="info_principal" rows="4" required><?php if(isset($perfil['info_principal'])) echo htmlspecialchars($perfil['info_principal']); ?></textarea>
+
           <label>URL da imagem</label>
-          <input type="text" name="imagem" value="<?php echo esc($perfil['imagem'] ?? ''); ?>">
-          <div style="display:flex; gap:8px; margin-top:8px;">
+          <input type="text" name="imagem" value="<?php if(isset($perfil['imagem'])) echo htmlspecialchars($perfil['imagem']); ?>">
+
+          <div style="margin-top:8px;">
             <button type="submit">Salvar Dados</button>
           </div>
         </form>
@@ -134,11 +147,11 @@ foreach ($experiencias as $e) {
 
       <section class="card" style="margin-top:12px;">
         <h2>Formação (bulk)</h2>
-        <p style="color:var(--muted);">Uma linha por formação: Instituição|Curso|Período</p>
+        <p style="color:var(--muted);">Use o formato: Instituição|Curso|Período</p>
         <form method="post">
           <input type="hidden" name="action" value="save_formacao">
-          <textarea name="formacao_text" rows="6"><?php echo esc($formacao_text); ?></textarea>
-          <div style="display:flex; gap:8px; margin-top:8px;">
+          <textarea name="formacao_text" rows="5"><?php echo htmlspecialchars($formacao_text); ?></textarea>
+          <div style="margin-top:8px;">
             <button type="submit">Salvar Formação</button>
           </div>
         </form>
@@ -146,11 +159,11 @@ foreach ($experiencias as $e) {
 
       <section class="card" style="margin-top:12px;">
         <h2>Experiências (bulk)</h2>
-        <p style="color:var(--muted);">Uma linha por experiência: Empresa|Função|Período|Descrição</p>
+        <p style="color:var(--muted);">Use o formato: Empresa|Função|Período|Descrição</p>
         <form method="post">
           <input type="hidden" name="action" value="save_experiencias">
-          <textarea name="experiencias_text" rows="8"><?php echo esc($experiencias_text); ?></textarea>
-          <div style="display:flex; gap:8px; margin-top:8px;">
+          <textarea name="experiencias_text" rows="6"><?php echo htmlspecialchars($experiencias_text); ?></textarea>
+          <div style="margin-top:8px;">
             <button type="submit">Salvar Experiências</button>
           </div>
         </form>
@@ -162,25 +175,23 @@ foreach ($experiencias as $e) {
         <h2>Contato</h2>
         <form method="post">
           <input type="hidden" name="action" value="save_contatos">
+
           <label>Email</label>
-          <input type="text" name="email" value="<?php echo esc($contatos['email'] ?? ''); ?>">
+          <input type="text" name="email" value="<?php if(isset($contatos['email'])) echo htmlspecialchars($contatos['email']); ?>" required>
+
           <label>Telefone</label>
-          <input type="text" name="telefone" value="<?php echo esc($contatos['telefone'] ?? ''); ?>">
+          <input type="text" name="telefone" value="<?php if(isset($contatos['telefone'])) echo htmlspecialchars($contatos['telefone']); ?>" required>
+
           <label>Link (portfólio/github)</label>
-          <input type="text" name="link" value="<?php echo esc($contatos['link'] ?? ''); ?>">
-          <div style="display:flex; gap:8px; margin-top:8px;">
+          <input type="text" name="link" value="<?php if(isset($contatos['link'])) echo htmlspecialchars($contatos['link']); ?>">
+
+          <div style="margin-top:8px;">
             <button type="submit">Salvar Contato</button>
           </div>
         </form>
       </div>
-
-      <div class="card">
-        <h2>Ajuda</h2>
-        <p style="color:var(--muted);">Use formulários para atualizar cada área. Formações e experiências aceitam linhas no formato pedido separadas por "|".</p>
-      </div>
     </aside>
   </div>
 </div>
-
 </body>
 </html>
