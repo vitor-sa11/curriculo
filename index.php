@@ -93,18 +93,18 @@ if (!$experiencias) {
         </p>
       </section>
 
-      <section id="experiencia" class="card" style="margin-top:12px;">
+      <section id="experiencia" class="card spaced">
         <h2>Experiência</h2>
         <?php if (count($experiencias) > 0) { ?>
           <ul class="list">
             <?php foreach ($experiencias as $exp) { ?>
               <li>
                 <strong><?php echo htmlspecialchars($exp['Empresa']); ?></strong> — <?php echo htmlspecialchars($exp['funcao']); ?>
-                <div style="color:var(--muted); font-size:0.95rem">
+                <div class="meta">
                   <?php echo htmlspecialchars($exp['periodo']); ?>
                 </div>
                 <?php if (isset($exp['descricao']) && $exp['descricao'] != '') { ?>
-                    <div style="margin-top:6px; color:var(--muted);">
+                    <div class="desc">
                       <?php echo htmlspecialchars($exp['descricao']); ?>
                     </div>
                 <?php } ?>
@@ -116,7 +116,7 @@ if (!$experiencias) {
         <?php } ?>
       </section>
 
-      <section id="formacao" class="card" style="margin-top:12px;">
+      <section id="formacao" class="card spaced">
         <h2>Formação</h2>
         <?php if (count($formacoes) > 0) { ?>
           <ul class="list">
@@ -125,7 +125,7 @@ if (!$experiencias) {
                 <strong><?php echo htmlspecialchars($f['Instituicao']); ?></strong>
                 <div>
                   <?php echo htmlspecialchars($f['curso']); ?> —
-                  <span style="color:var(--muted);">
+                  <span class="muted">
                     <?php echo htmlspecialchars($f['periodo']); ?>
                   </span>
                 </div>
@@ -141,7 +141,7 @@ if (!$experiencias) {
     <aside class="side-stack">
       <div class="card">
         <h2>Contato</h2>
-        <p style="color:var(--muted)">Email:
+        <p class="muted">Email:
           <?php
           if (isset($contatos['email'])) {
               echo htmlspecialchars($contatos['email']);
@@ -150,7 +150,7 @@ if (!$experiencias) {
           }
           ?>
         </p>
-        <p style="color:var(--muted)">Telefone:
+        <p class="muted">Telefone:
           <?php
           if (isset($contatos['telefone'])) {
               echo htmlspecialchars($contatos['telefone']);

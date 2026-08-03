@@ -186,3 +186,21 @@ button.secondary {
   color: var(--accent);
   border: 1px solid rgba(0,119,204,0.14);
 }
+
+.spaced {
+  margin-top: 12px;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.desc {
+  margin-top: 6px;
+  color: var(--muted);
+}
+
+.muted {
+  color: var(--muted);
+}

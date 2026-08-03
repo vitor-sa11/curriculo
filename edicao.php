@@ -104,7 +104,7 @@ foreach ($experiencias as $e) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Editar Currículo</title>
-    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/edicao.css">
 </head>
 <body>
 <nav>
@@ -139,31 +139,31 @@ foreach ($experiencias as $e) {
           <label>URL da imagem</label>
           <input type="text" name="imagem" value="<?php if(isset($perfil['imagem'])) echo htmlspecialchars($perfil['imagem']); ?>">
 
-          <div style="margin-top:8px;">
+          <div class="mt-8">
             <button type="submit">Salvar Dados</button>
           </div>
         </form>
       </section>
 
-      <section class="card" style="margin-top:12px;">
+      <section class="card spaced">
         <h2>Formação (bulk)</h2>
-        <p style="color:var(--muted);">Use o formato: Instituição|Curso|Período</p>
+        <p class="muted">Use o formato: Instituição|Curso|Período</p>
         <form method="post">
           <input type="hidden" name="action" value="save_formacao">
           <textarea name="formacao_text" rows="5"><?php echo htmlspecialchars($formacao_text); ?></textarea>
-          <div style="margin-top:8px;">
+          <div class="mt-8">
             <button type="submit">Salvar Formação</button>
           </div>
         </form>
       </section>
 
-      <section class="card" style="margin-top:12px;">
+      <section class="card spaced">
         <h2>Experiências (bulk)</h2>
-        <p style="color:var(--muted);">Use o formato: Empresa|Função|Período|Descrição</p>
+        <p class="muted">Use o formato: Empresa|Função|Período|Descrição</p>
         <form method="post">
           <input type="hidden" name="action" value="save_experiencias">
           <textarea name="experiencias_text" rows="6"><?php echo htmlspecialchars($experiencias_text); ?></textarea>
-          <div style="margin-top:8px;">
+          <div class="mt-8">
             <button type="submit">Salvar Experiências</button>
           </div>
         </form>
@@ -185,7 +185,7 @@ foreach ($experiencias as $e) {
           <label>Link (portfólio/github)</label>
           <input type="text" name="link" value="<?php if(isset($contatos['link'])) echo htmlspecialchars($contatos['link']); ?>">
 
-          <div style="margin-top:8px;">
+          <div class="mt-8">
             <button type="submit">Salvar Contato</button>
           </div>
         </form>

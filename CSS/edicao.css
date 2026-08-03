@@ -1,0 +1,11 @@
+.spaced {
+  margin-top: 12px;
+}
+
+.mt-8 {
+  margin-top: 8px;
+}
+
+.muted {
+  color: var(--muted);
+}
