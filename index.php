@@ -6,17 +6,13 @@ $contatos = read($pdo, 'contatos', '1 LIMIT 1');
 $formacoes = readAll($pdo, 'formacao');
 $experiencias = readAll($pdo, 'experiencias');
 
-if (!$perfil) {
-    $perfil = array();
+if (!$perfil) {$perfil = array();
 }
-if (!$contatos) {
-    $contatos = array();
+if (!$contatos) {$contatos = array();
 }
-if (!$formacoes) {
-    $formacoes = array();
+if (!$formacoes) {$formacoes = array();
 }
-if (!$experiencias) {
-    $experiencias = array();
+if (!$experiencias) {$experiencias = array();
 }
 ?>
 <!DOCTYPE html>
@@ -28,28 +24,17 @@ if (!$experiencias) {
     <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
-<nav>
-  <div class="container">
-    <div class="brand">Meu Currículo</div>
-    <ul>
-      <li><a href="index.php">Home</a></li>
-      <li><a href="#sobre">Sobre</a></li>
-      <li><a href="#experiencia">Experiência</a></li>
-      <li><a href="edicao.php">Editar</a></li>
-    </ul>
-  </div>
-</nav>
 
-<div class="main-wrap">
-  <section class="profile-card">
+<div class="conteudo-principal">
+  <section class="card-perfil">
     <?php
     $imagem = 'https://cdn-icons-png.flaticon.com/512/12225/12225881.png';
-    if (isset($perfil['imagem']) && $perfil['imagem'] != '') {
-        $imagem = $perfil['imagem'];
+    if (isset($perfil['imagem']) &&$perfil['imagem'] != '') {
+        $imagem =$perfil['imagem'];
     }
     ?>
     <img src="<?php echo htmlspecialchars($imagem); ?>" alt="Foto de perfil">
-    <div class="info">
+    <div class="informacoes">
       <h1>
         <?php
         if (isset($perfil['Nome'])) {
@@ -59,7 +44,7 @@ if (!$experiencias) {
         }
         ?>
       </h1>
-      <p class="title">
+      <p class="titulo">
         <?php
         if (isset($perfil['cargo'])) {
             echo htmlspecialchars($perfil['cargo']);
@@ -68,7 +53,7 @@ if (!$experiencias) {
         }
         ?>
       </p>
-      <p class="blurb">
+      <p class="resumo-perfil">
         <?php
         if (isset($perfil['resumo'])) {
             echo nl2br(htmlspecialchars($perfil['resumo']));
@@ -78,7 +63,7 @@ if (!$experiencias) {
     </div>
   </section>
 
-  <div class="sections">
+  <div class="secoes">
     <div>
       <section id="sobre" class="card">
         <h2>Sobre</h2>
@@ -93,18 +78,23 @@ if (!$experiencias) {
         </p>
       </section>
 
-      <section id="experiencia" class="card spaced">
-        <h2>Experiência</h2>
+      <section id="experiencia" class="card espacado">
+        <div class="linha">
+          <h2>Experiência</h2>
+          <a href="./adicionar_experiencia.php">
+            <button class="adicionar">+</button>
+          </a>
+        </div>
         <?php if (count($experiencias) > 0) { ?>
-          <ul class="list">
-            <?php foreach ($experiencias as $exp) { ?>
+          <ul class="lista">
+            <?php foreach ($experiencias as$exp) { ?>
               <li>
                 <strong><?php echo htmlspecialchars($exp['Empresa']); ?></strong> — <?php echo htmlspecialchars($exp['funcao']); ?>
-                <div class="meta">
+                <div class="metadados">
                   <?php echo htmlspecialchars($exp['periodo']); ?>
                 </div>
-                <?php if (isset($exp['descricao']) && $exp['descricao'] != '') { ?>
-                    <div class="desc">
+                <?php if (isset($exp['descricao']) &&$exp['descricao'] != '') { ?>
+                    <div class="descricao">
                       <?php echo htmlspecialchars($exp['descricao']); ?>
                     </div>
                 <?php } ?>
@@ -112,20 +102,25 @@ if (!$experiencias) {
             <?php } ?>
           </ul>
         <?php } else { ?>
-          <p class="muted">Nenhuma experiência cadastrada.</p>
+          <p class="suave">Nenhuma experiência cadastrada.</p>
         <?php } ?>
       </section>
 
-      <section id="formacao" class="card spaced">
-        <h2>Formação</h2>
+      <section id="formacao" class="card espacado">
+        <div class="linha">
+          <h2>Formação</h2>
+          <a href="./adicionar_formacao.php">
+            <button class="adicionar">+</button>
+          </a>
+        </div>
         <?php if (count($formacoes) > 0) { ?>
-          <ul class="list">
-            <?php foreach ($formacoes as $f) { ?>
+          <ul class="lista">
+            <?php foreach ($formacoes as$f) { ?>
               <li>
                 <strong><?php echo htmlspecialchars($f['Instituicao']); ?></strong>
                 <div>
                   <?php echo htmlspecialchars($f['curso']); ?> —
-                  <span class="muted">
+                  <span class="suave">
                     <?php echo htmlspecialchars($f['periodo']); ?>
                   </span>
                 </div>
@@ -133,15 +128,15 @@ if (!$experiencias) {
             <?php } ?>
           </ul>
         <?php } else { ?>
-          <p class="muted">Nenhuma formação cadastrada.</p>
+          <p class="suave">Nenhuma formação cadastrada.</p>
         <?php } ?>
       </section>
     </div>
 
-    <aside class="side-stack">
+    <aside class="coluna-lateral">
       <div class="card">
         <h2>Contato</h2>
-        <p class="muted">Email:
+        <p class="suave">Email:
           <?php
           if (isset($contatos['email'])) {
               echo htmlspecialchars($contatos['email']);
@@ -150,7 +145,7 @@ if (!$experiencias) {
           }
           ?>
         </p>
-        <p class="muted">Telefone:
+        <p class="suave">Telefone:
           <?php
           if (isset($contatos['telefone'])) {
               echo htmlspecialchars($contatos['telefone']);
@@ -159,7 +154,7 @@ if (!$experiencias) {
           }
           ?>
         </p>
-        <?php if (isset($contatos['link']) && $contatos['link'] != '') { ?>
+        <?php if (isset($contatos['link']) &&$contatos['link'] != '') { ?>
             <p>
               <a href="<?php echo htmlspecialchars($contatos['link']); ?>" target="_blank">Link/Portfólio</a>
             </p>
@@ -167,7 +162,7 @@ if (!$experiencias) {
       </div>
       <div class="card">
         <h2>Ações</h2>
-        <a href="edicao.php"><button>Editar conteúdo</button></a>
+        <a href="edicao.php"><button class="editar">Editar conteúdo</button></a>
       </div>
     </aside>
   </div>

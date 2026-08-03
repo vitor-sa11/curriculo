@@ -107,91 +107,85 @@ foreach ($experiencias as $e) {
     <link rel="stylesheet" href="CSS/edicao.css">
 </head>
 <body>
-<nav>
-  <div class="container">
-    <div class="brand">Editar Currículo</div>
-    <ul>
-      <li><a href="index.php">Voltar ao Currículo</a></li>
-    </ul>
-  </div>
-</nav>
+  <div class="conteudo-principal">
+    <a href="./index.php">
+      <button class="voltar">voltar</button>
+    </a>
+    <div class="secoes">
+      <div>
+        <section class="card">
+          <h2>Dados Pessoais</h2>
+          <form method="post">
+            <input type="hidden" name="action" value="save_perfil">
 
-<div class="main-wrap">
-  <div class="sections">
-    <div>
-      <section class="card">
-        <h2>Dados Pessoais</h2>
-        <form method="post">
-          <input type="hidden" name="action" value="save_perfil">
+            <label>Nome</label>
+            <input type="text" name="Nome" value="<?php if(isset($perfil['Nome'])) echo htmlspecialchars($perfil['Nome']); ?>" required>
 
-          <label>Nome</label>
-          <input type="text" name="Nome" value="<?php if(isset($perfil['Nome'])) echo htmlspecialchars($perfil['Nome']); ?>" required>
+            <label>Cargo</label>
+            <input type="text" name="cargo" value="<?php if(isset($perfil['cargo'])) echo htmlspecialchars($perfil['cargo']); ?>" required>
 
-          <label>Cargo</label>
-          <input type="text" name="cargo" value="<?php if(isset($perfil['cargo'])) echo htmlspecialchars($perfil['cargo']); ?>" required>
+            <label>Resumo curto</label>
+            <textarea name="resumo" rows="3"><?php if(isset($perfil['resumo'])) echo htmlspecialchars($perfil['resumo']); ?></textarea>
 
-          <label>Resumo curto</label>
-          <textarea name="resumo" rows="3"><?php if(isset($perfil['resumo'])) echo htmlspecialchars($perfil['resumo']); ?></textarea>
+            <label>Info principal (descrição maior)</label>
+            <textarea name="info_principal" rows="4" required><?php if(isset($perfil['info_principal'])) echo htmlspecialchars($perfil['info_principal']); ?></textarea>
 
-          <label>Info principal (descrição maior)</label>
-          <textarea name="info_principal" rows="4" required><?php if(isset($perfil['info_principal'])) echo htmlspecialchars($perfil['info_principal']); ?></textarea>
+            <label>URL da imagem</label>
+            <input type="text" name="imagem" value="<?php if(isset($perfil['imagem'])) echo htmlspecialchars($perfil['imagem']); ?>">
 
-          <label>URL da imagem</label>
-          <input type="text" name="imagem" value="<?php if(isset($perfil['imagem'])) echo htmlspecialchars($perfil['imagem']); ?>">
+            <div class="espacado">
+              <button type="submit">Salvar Dados</button>
+            </div>
+          </form>
+        </section>
 
-          <div class="mt-8">
-            <button type="submit">Salvar Dados</button>
-          </div>
-        </form>
-      </section>
+        <section class="card espacado">
+          <h2>Formação (bulk)</h2>
+          <p class="suave">Use o formato: Instituição|Curso|Período</p>
+          <form method="post">
+            <input type="hidden" name="action" value="save_formacao">
+            <textarea name="formacao_text" rows="5"><?php echo htmlspecialchars($formacao_text); ?></textarea>
+            <div class="espaco-cima">
+              <button type="submit">Salvar Formação</button>
+            </div>
+          </form>
+        </section>
 
-      <section class="card spaced">
-        <h2>Formação (bulk)</h2>
-        <p class="muted">Use o formato: Instituição|Curso|Período</p>
-        <form method="post">
-          <input type="hidden" name="action" value="save_formacao">
-          <textarea name="formacao_text" rows="5"><?php echo htmlspecialchars($formacao_text); ?></textarea>
-          <div class="mt-8">
-            <button type="submit">Salvar Formação</button>
-          </div>
-        </form>
-      </section>
-
-      <section class="card spaced">
-        <h2>Experiências (bulk)</h2>
-        <p class="muted">Use o formato: Empresa|Função|Período|Descrição</p>
-        <form method="post">
-          <input type="hidden" name="action" value="save_experiencias">
-          <textarea name="experiencias_text" rows="6"><?php echo htmlspecialchars($experiencias_text); ?></textarea>
-          <div class="mt-8">
-            <button type="submit">Salvar Experiências</button>
-          </div>
-        </form>
-      </section>
-    </div>
-
-    <aside class="side-stack">
-      <div class="card">
-        <h2>Contato</h2>
-        <form method="post">
-          <input type="hidden" name="action" value="save_contatos">
-
-          <label>Email</label>
-          <input type="text" name="email" value="<?php if(isset($contatos['email'])) echo htmlspecialchars($contatos['email']); ?>" required>
-
-          <label>Telefone</label>
-          <input type="text" name="telefone" value="<?php if(isset($contatos['telefone'])) echo htmlspecialchars($contatos['telefone']); ?>" required>
-
-          <label>Link (portfólio/github)</label>
-          <input type="text" name="link" value="<?php if(isset($contatos['link'])) echo htmlspecialchars($contatos['link']); ?>">
-
-          <div class="mt-8">
-            <button type="submit">Salvar Contato</button>
-          </div>
-        </form>
+        <section class="card espacado">
+          <h2>Experiências (bulk)</h2>
+          <p class="suave">Use o formato: Empresa|Função|Período|Descrição</p>
+          <form method="post">
+            <input type="hidden" name="action" value="save_experiencias">
+            <textarea name="experiencias_text" rows="6"><?php echo htmlspecialchars($experiencias_text); ?></textarea>
+            <div class="espaco-cima">
+              <button type="submit">Salvar Experiências</button>
+            </div>
+          </form>
+        </section>
       </div>
-    </aside>
+
+      <aside class="coluna-lateral">
+        <div class="card">
+          <h2>Contato</h2>
+          <form method="post">
+            <input type="hidden" name="action" value="save_contatos">
+
+            <label>Email</label>
+            <input type="text" name="email" value="<?php if(isset($contatos['email'])) echo htmlspecialchars($contatos['email']); ?>" required>
+
+            <label>Telefone</label>
+            <input type="text" name="telefone" value="<?php if(isset($contatos['telefone'])) echo htmlspecialchars($contatos['telefone']); ?>" required>
+
+            <label>Link (portfólio/github)</label>
+            <input type="text" name="link" value="<?php if(isset($contatos['link'])) echo htmlspecialchars($contatos['link']); ?>">
+
+            <div class="espaco-cima">
+              <button type="submit">Salvar Contato</button>
+            </div>
+          </form>
+        </div>
+      </aside>
+    </div>
   </div>
-</div>
 </body>
 </html>
