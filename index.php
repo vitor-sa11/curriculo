@@ -6,14 +6,10 @@ $contatos = read($pdo, 'contatos', '1 LIMIT 1');
 $formacoes = readAll($pdo, 'formacao');
 $experiencias = readAll($pdo, 'experiencias');
 
-if (!$perfil) {$perfil = array();
-}
-if (!$contatos) {$contatos = array();
-}
-if (!$formacoes) {$formacoes = array();
-}
-if (!$experiencias) {$experiencias = array();
-}
+if (!$perfil) { $perfil = array(); }
+if (!$contatos) { $contatos = array(); }
+if (!$formacoes) { $formacoes = array(); }
+if (!$experiencias) { $experiencias = array(); }
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -29,36 +25,20 @@ if (!$experiencias) {$experiencias = array();
   <section class="card-perfil">
     <?php
     $imagem = 'https://cdn-icons-png.flaticon.com/512/12225/12225881.png';
-    if (isset($perfil['imagem']) &&$perfil['imagem'] != '') {
-        $imagem =$perfil['imagem'];
+    if (isset($perfil['imagem']) && $perfil['imagem'] != '') {
+        $imagem = $perfil['imagem'];
     }
     ?>
     <img src="<?php echo htmlspecialchars($imagem); ?>" alt="Foto de perfil">
     <div class="informacoes">
       <h1>
-        <?php
-        if (isset($perfil['Nome'])) {
-            echo htmlspecialchars($perfil['Nome']);
-        } else {
-            echo 'Nome Completo';
-        }
-        ?>
+        <?php echo isset($perfil['Nome']) ? htmlspecialchars($perfil['Nome']) : 'Nome Completo'; ?>
       </h1>
       <p class="titulo">
-        <?php
-        if (isset($perfil['cargo'])) {
-            echo htmlspecialchars($perfil['cargo']);
-        } else {
-            echo 'Profissão';
-        }
-        ?>
+        <?php echo isset($perfil['cargo']) ? htmlspecialchars($perfil['cargo']) : 'Profissão'; ?>
       </p>
       <p class="resumo-perfil">
-        <?php
-        if (isset($perfil['resumo'])) {
-            echo nl2br(htmlspecialchars($perfil['resumo']));
-        }
-        ?>
+        <?php echo isset($perfil['resumo']) ? nl2br(htmlspecialchars($perfil['resumo'])) : ''; ?>
       </p>
     </div>
   </section>
@@ -68,13 +48,7 @@ if (!$experiencias) {$experiencias = array();
       <section id="sobre" class="card">
         <h2>Sobre</h2>
         <p>
-          <?php
-          if (isset($perfil['info_principal'])) {
-              echo nl2br(htmlspecialchars($perfil['info_principal']));
-          } else {
-              echo 'Escreva seu resumo profissional aqui.';
-          }
-          ?>
+          <?php echo isset($perfil['info_principal']) ? nl2br(htmlspecialchars($perfil['info_principal'])) : 'Escreva seu resumo profissional aqui.'; ?>
         </p>
       </section>
 
@@ -87,17 +61,23 @@ if (!$experiencias) {$experiencias = array();
         </div>
         <?php if (count($experiencias) > 0) { ?>
           <ul class="lista">
-            <?php foreach ($experiencias as$exp) { ?>
-              <li>
-                <strong><?php echo htmlspecialchars($exp['Empresa']); ?></strong> — <?php echo htmlspecialchars($exp['funcao']); ?>
-                <div class="metadados">
-                  <?php echo htmlspecialchars($exp['periodo']); ?>
+            <?php foreach ($experiencias as $index => $exp) { ?>
+              <li class="item-lista">
+                <div class="item-conteudo">
+                  <strong><?php echo htmlspecialchars($exp['Empresa']); ?></strong> — <?php echo htmlspecialchars($exp['funcao']); ?>
+                  <div class="metadados">
+                    <?php echo htmlspecialchars($exp['periodo']); ?>
+                  </div>
+                  <?php if (isset($exp['descricao']) && $exp['descricao'] != '') { ?>
+                      <div class="descricao">
+                        <?php echo htmlspecialchars($exp['descricao']); ?>
+                      </div>
+                  <?php } ?>
                 </div>
-                <?php if (isset($exp['descricao']) &&$exp['descricao'] != '') { ?>
-                    <div class="descricao">
-                      <?php echo htmlspecialchars($exp['descricao']); ?>
-                    </div>
-                <?php } ?>
+                <a href="PHP/deletar.php?tipo=experiencia&index=<?php echo $index; ?>" 
+                   class="btn-deletar" 
+                   onclick="return confirm('Deseja remover esta experiência?');" 
+                   title="Remover">✕</a>
               </li>
             <?php } ?>
           </ul>
@@ -115,15 +95,21 @@ if (!$experiencias) {$experiencias = array();
         </div>
         <?php if (count($formacoes) > 0) { ?>
           <ul class="lista">
-            <?php foreach ($formacoes as$f) { ?>
-              <li>
-                <strong><?php echo htmlspecialchars($f['Instituicao']); ?></strong>
-                <div>
-                  <?php echo htmlspecialchars($f['curso']); ?> —
-                  <span class="suave">
-                    <?php echo htmlspecialchars($f['periodo']); ?>
-                  </span>
+            <?php foreach ($formacoes as $index => $f) { ?>
+              <li class="item-lista">
+                <div class="item-conteudo">
+                  <strong><?php echo htmlspecialchars($f['Instituicao']); ?></strong>
+                  <div>
+                    <?php echo htmlspecialchars($f['curso']); ?> —
+                    <span class="suave">
+                      <?php echo htmlspecialchars($f['periodo']); ?>
+                    </span>
+                  </div>
                 </div>
+                <a href="PHP/deletar.php?tipo=formacao&index=<?php echo $index; ?>" 
+                   class="btn-deletar" 
+                   onclick="return confirm('Deseja remover esta formação?');" 
+                   title="Remover">✕</a>
               </li>
             <?php } ?>
           </ul>
@@ -137,24 +123,12 @@ if (!$experiencias) {$experiencias = array();
       <div class="card">
         <h2>Contato</h2>
         <p class="suave">Email:
-          <?php
-          if (isset($contatos['email'])) {
-              echo htmlspecialchars($contatos['email']);
-          } else {
-              echo 'seu@email.com';
-          }
-          ?>
+          <?php echo isset($contatos['email']) ? htmlspecialchars($contatos['email']) : 'seu@email.com'; ?>
         </p>
         <p class="suave">Telefone:
-          <?php
-          if (isset($contatos['telefone'])) {
-              echo htmlspecialchars($contatos['telefone']);
-          } else {
-              echo '(00) 00000-0000';
-          }
-          ?>
+          <?php echo isset($contatos['telefone']) ? htmlspecialchars($contatos['telefone']) : '(00) 00000-0000'; ?>
         </p>
-        <?php if (isset($contatos['link']) &&$contatos['link'] != '') { ?>
+        <?php if (isset($contatos['link']) && $contatos['link'] != '') { ?>
             <p>
               <a href="<?php echo htmlspecialchars($contatos['link']); ?>" target="_blank">Link/Portfólio</a>
             </p>

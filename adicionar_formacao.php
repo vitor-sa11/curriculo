@@ -14,7 +14,7 @@
             <h2>Adicionar Formação Acadêmica</h2>
             <p class="suave">Preencha os campos abaixo para cadastrar sua formação.</p>
             
-            <form method="post" action="processar_formacao.php">
+            <form method="post" action="PHP/processar_formacao.php">
                 <input type="hidden" name="action" value="save_formacao">
 
                 <div class="campo-grupo">

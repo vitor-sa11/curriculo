@@ -14,7 +14,7 @@
             <h2>Adicionar Experiência Profissional</h2>
             <p class="suave">Preencha os campos abaixo para cadastrar uma nova experiência.</p>
             
-            <form method="post" action="processar_experiencia.php">
+            <form method="post" action="PHP/processar_experiencia.php">
                 <input type="hidden" name="action" value="save_experiencia">
                 
                 <div class="campo-grupo">

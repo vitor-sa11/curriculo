@@ -111,23 +111,43 @@ body {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
+  margin-top: 12px;
 }
 
 .lista li {
-  padding: 8px 10px;
+  padding: 14px 16px;
   border-radius: 8px;
-  background: rgba(3,102,214,0.03);
+  background: #ffffff;
+  border-left: 4px solid var(--destaque);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.metadados {
+.lista li:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.lista li strong {
+  color: var(--texto);
+  font-size: 1rem;
+  display: inline-block;
+}
+
+.metadados, 
+.lista li .suave {
   color: var(--suave);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 2px;
 }
 
 .descricao {
-  margin-top: 6px;
-  color: var(--suave);
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #4b5563;
+  line-height: 1.5;
 }
 
 .editar {
@@ -152,4 +172,36 @@ button:hover {
 
 .suave {
   color: var(--suave);
+}
+
+.lista li.item-lista {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.item-conteudo {
+  flex: 1;
+}
+
+.btn-deletar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background-color: #fee2e2;
+  color: #ef4444;
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: bold;
+  transition: background-color 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.btn-deletar:hover {
+  background-color: #ef4444;
+  color: #ffffff;
 }
