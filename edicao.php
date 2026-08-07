@@ -138,30 +138,6 @@ foreach ($experiencias as $e) {
             </div>
           </form>
         </section>
-
-        <section class="card espacado">
-          <h2>Formação (bulk)</h2>
-          <p class="suave">Use o formato: Instituição|Curso|Período</p>
-          <form method="post">
-            <input type="hidden" name="action" value="save_formacao">
-            <textarea name="formacao_text" rows="5"><?php echo htmlspecialchars($formacao_text); ?></textarea>
-            <div class="espaco-cima">
-              <button type="submit">Salvar Formação</button>
-            </div>
-          </form>
-        </section>
-
-        <section class="card espacado">
-          <h2>Experiências (bulk)</h2>
-          <p class="suave">Use o formato: Empresa|Função|Período|Descrição</p>
-          <form method="post">
-            <input type="hidden" name="action" value="save_experiencias">
-            <textarea name="experiencias_text" rows="6"><?php echo htmlspecialchars($experiencias_text); ?></textarea>
-            <div class="espaco-cima">
-              <button type="submit">Salvar Experiências</button>
-            </div>
-          </form>
-        </section>
       </div>
 
       <aside class="coluna-lateral">
